@@ -47,9 +47,6 @@ setup(
         'plone.app.upgrade',
         # with_ploneproduct_cjqui
         'collective.js.jqueryui',
-        # with_ploneproduct_datatables
-        'collective.js.datatables',
-        # -*- Extra requirements: -*-
     ],
     extras_require = {
         'test': ['plone.app.testing', 'ipython',]

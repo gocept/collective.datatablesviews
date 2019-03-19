@@ -108,6 +108,10 @@ $(document).ready(function() {
       head.appendChild(script);
       return undefined;
     }});
+    $.getScript("++resource++collective.datatablesviews/moment.min.js");
+    $.getScript("++resource++collective.datatablesviews/datatables.min.js");
+    $.getScript("++resource++collective.datatablesviews/datatables.min.css");
+    $.getScript("++resource++collective.datatablesviews/datetime-moment.js");
     $.getScript("++resource++collective.datatablesviews/table.js");
 });
 </script>
