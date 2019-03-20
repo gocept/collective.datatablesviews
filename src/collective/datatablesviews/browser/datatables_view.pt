@@ -8,11 +8,11 @@
   <head>
     <metal:fill metal:fill-slot="style_slot">
       <style type="text/css">
-        .datatable-wrapper .dataTables_paginate .fg-button { min-width: 18px; } 
+        .datatable-wrapper .dataTables_paginate .fg-button { min-width: 18px; }
         .datatable-wrapper .dataTables_length { min-width: 180px; }
         .datatable-wrapper .dataTables_filter { min-width:232px; }
         .datatable-wrapper .dataTables_paginate{ min-width:350px; }
-        #content .dataTable, .dataTable { display:block; padding-top: 5px; } 
+        #content .dataTable, .dataTable { display:block; padding-top: 5px; }
       </style>
     </metal:fill>
   </head>
@@ -63,9 +63,11 @@
                   <td tal:condition="python:field[0] in ['CreationDate', 'ModificationDate']">
 		     <span tal:define="field_data python:toLocalizedTime(getattr(item, field[0])())" tal:replace="field_data"/>
                   </td>
-                  <td tal:condition="python:field[0] in ['abgabe']">
-		     <span tal:define="field_data python:getattr(item, field[0]).strftime('%d.%m.%Y')" tal:replace="field_data"/>
-                  </td>
+                  <tal:block condition="python:getattr(item, field[0]">
+                    <td tal:condition="python:field[0] in ['abgabe']">
+  		     <span tal:define="field_data python:getattr(item, field[0]).strftime('%d.%m.%Y')" tal:replace="field_data"/>
+                    </td>
+                  </tal:block>
                   <td tal:condition="python:field[0] == 'Title'">
                     <a href="#"
                       tal:attributes="href item/getURL;
@@ -97,11 +99,11 @@ $(document).ready(function() {
       if(ext == 'js'){
         var script = document.createElement("script");
         script.src = url; script.type = 'text/javascript';
-      } 
+      }
       else if(ext == 'css'){
         var script = document.createElement("link");
         script.href = url; script.type = 'text/css'; script.rel = 'stylesheet';
-      } 
+      }
       else { console.log("unsupported loading"); return false; }
       var done = false;
       script.onload = script.onreadystatechange = function() {
@@ -127,4 +129,4 @@ $(document).ready(function() {
 </script>
     </div>
   </body>
-</html>  
+</html>
