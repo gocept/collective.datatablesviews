@@ -4,7 +4,7 @@
   xmlns:metal="http://xml.zope.org/namespaces/metal"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   metal:use-macro="context/main_template/macros/master"
-  i18n:domain="collective.datatablesviews">
+  i18n:domain="plone">
   <head>
     <metal:fill metal:fill-slot="style_slot">
       <style type="text/css">
@@ -41,6 +41,7 @@
         <table class="listing" summary="Content listing"
           i18n:attributes="summary"
           tal:define="fields context/selectedViewFields;
+	  toLocalizedTime nocall: context/@@plone/toLocalizedTime;
           pas_member context/@@pas_member">
           <thead>
             <tr>
@@ -55,9 +56,15 @@
               <tr tal:define="oddrow repeat/item/odd;"
                 tal:attributes="class python:oddrow and 'even' or 'odd'" >
                 <tal:block tal:repeat="field fields">
-                  <td tal:condition="python:field[0] not in ['Title', 'Creator', ]"
+                  <td tal:condition="python:field[0] not in ['Title', 'Creator', 'abgabe', 'CreationDate', 'ModificationDate']"
                     tal:define="field_data python:getattr(item, field[0])">
                     <tal:block tal:replace="field_data" />
+                  </td>
+                  <td tal:condition="python:field[0] in ['CreationDate', 'ModificationDate']">
+		     <span tal:define="field_data python:toLocalizedTime(getattr(item, field[0])())" tal:replace="field_data"/>
+                  </td>
+                  <td tal:condition="python:field[0] in ['abgabe']">
+		     <span tal:define="field_data python:getattr(item, field[0]).strftime('%d.%m.%Y')" tal:replace="field_data"/>
                   </td>
                   <td tal:condition="python:field[0] == 'Title'">
                     <a href="#"
@@ -108,11 +115,14 @@ $(document).ready(function() {
       head.appendChild(script);
       return undefined;
     }});
-    $.getScript("++resource++collective.datatablesviews/moment.min.js");
-    $.getScript("++resource++collective.datatablesviews/datatables.min.js");
     $.getScript("++resource++collective.datatablesviews/datatables.min.css");
-    $.getScript("++resource++collective.datatablesviews/datetime-moment.js");
-    $.getScript("++resource++collective.datatablesviews/table.js");
+    $.getScript("++resource++collective.datatablesviews/moment.min.js", function() {
+        $.getScript("++resource++collective.datatablesviews/datatables.min.js", function() {
+	    $.getScript("++resource++collective.datatablesviews/datetime-moment.js", function() {
+	        $.getScript("++resource++collective.datatablesviews/table.js");
+	    });
+	});
+    });
 });
 </script>
     </div>

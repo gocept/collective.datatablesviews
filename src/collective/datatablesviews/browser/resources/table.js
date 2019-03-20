@@ -17,13 +17,12 @@ jq(document).ready(function() {
         for (i=0;i<nbcolumns;i++) {
                 cdefs[cdefs.length] = {
                 targets: [i],
-                searchable: true,
-                width: "1%"
+                searchable: true
             };
         }
         datatablesviewsmapdt_tables[id] = jelem.dataTable({
             dom: 'Blfrtip',
-            language: {"url": "@@collective.js.datatables.translation"},
+            language: {"url": "++resource++collective.datatablesviews/de.json"},
             buttons: [{
                 extend: 'excelHtml5',
                 text: 'Export als XLS-Datei',
