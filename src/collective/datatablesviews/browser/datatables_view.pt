@@ -63,7 +63,7 @@
                   <td tal:condition="python:field[0] in ['CreationDate', 'ModificationDate']">
 		     <span tal:define="field_data python:toLocalizedTime(getattr(item, field[0])())" tal:replace="field_data"/>
                   </td>
-                  <tal:block condition="python:getattr(item, field[0]">
+                  <tal:block condition="python:getattr(item, field[0])">
                     <td tal:condition="python:field[0] in ['abgabe']">
   		     <span tal:define="field_data python:getattr(item, field[0]).strftime('%d.%m.%Y')" tal:replace="field_data"/>
                     </td>
