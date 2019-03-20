@@ -10,8 +10,8 @@ jq(document).ready(function() {
     var datatablesviewsmapdt_elems = jq(".datatable-wrapper table");
     datatablesviewsmapdt_elems.each(function(i, elem){
         var jelem = jq(elem);
-        var id = jelem.attr("id");
-        datatablesviewsmapdt_asInitVals[id] = new Array();
+        var summary = jelem.attr("summary");
+        datatablesviewsmapdt_asInitVals[summary] = new Array();
         nbcolumns = $('td', $("tbody tr", jelem)[0]).length;
         cdefs = new Array();
         for (i=0;i<nbcolumns;i++) {
@@ -20,7 +20,7 @@ jq(document).ready(function() {
                 searchable: true
             };
         }
-        datatablesviewsmapdt_tables[id] = jelem.dataTable({
+        datatablesviewsmapdt_tables[summary] = jelem.DataTable({
             dom: 'Blfrtip',
             language: {"url": "++resource++collective.datatablesviews/de.json"},
             buttons: [{
@@ -29,7 +29,26 @@ jq(document).ready(function() {
                 sheetName: 'Tabelle 1'
             }],
             pagingType: "full_numbers",
-            columnDefs: cdefs
+            columnDefs: cdefs,
+            // Settings for input filtering in header
+            orderCellsTop: true,
+            fixedHeader: true
         });
+        // Filter in table header.
+        $('thead tr', jelem).clone(true).appendTo('thead', jelem);
+        $('thead tr:eq(1) th', jelem).each( function (i) {
+            var title = $(this).text();
+            var table = datatablesviewsmapdt_tables[summary];
+            $(this).html('<input type="text" placeholder="Search '+title+'" />');
+
+            $('input', this).on('keyup change', function () {
+                if (table.column(i).search() !== this.value) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
     });
-}); 
+});
